@@ -3,13 +3,13 @@ package main
 import (
 	"log"
 
-	"gopkg.in/targodan/ffgopeg.v1/avcodec"
-	"gopkg.in/targodan/ffgopeg.v1/avdevice"
-	"gopkg.in/targodan/ffgopeg.v1/avfilter"
-	"gopkg.in/targodan/ffgopeg.v1/avformat"
-	"gopkg.in/targodan/ffgopeg.v1/avutil"
-	"gopkg.in/targodan/ffgopeg.v1/swresample"
-	"gopkg.in/targodan/ffgopeg.v1/swscale"
+	"github.com/alon-ne/ffgopeg/avcodec"
+	"github.com/alon-ne/ffgopeg/avdevice"
+	"github.com/alon-ne/ffgopeg/avfilter"
+	"github.com/alon-ne/ffgopeg/avformat"
+	"github.com/alon-ne/ffgopeg/avutil"
+	"github.com/alon-ne/ffgopeg/swresample"
+	"github.com/alon-ne/ffgopeg/swscale"
 )
 
 func main() {
