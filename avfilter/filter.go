@@ -5,6 +5,7 @@
 package avfilter
 
 /*
+	#cgo CFLAGS: -Wno-deprecated-declarations
 	#cgo pkg-config: libavfilter
 	#include <libavfilter/avfilter.h>
 */

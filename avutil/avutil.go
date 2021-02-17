@@ -8,6 +8,7 @@
 // Some generic features and utilities provided by the libavutil library
 package avutil
 
+//#cgo CFLAGS: -Wno-deprecated-declarations
 //#cgo pkg-config: libavutil
 //#include <libavutil/avutil.h>
 //#include <libavutil/channel_layout.h>
@@ -75,7 +76,7 @@ func ChannelLayoutString(channelLayout uint64) string {
 //
 // C-Function: av_get_picture_type_char
 func PictureTypeChar(pt PictureType) string {
-	return string(C.av_get_picture_type_char((C.enum_AVPictureType)(pt)))
+	return string(rune(C.av_get_picture_type_char((C.enum_AVPictureType)(pt))))
 }
 
 // XIfNull returns x default pointer in case p is NULL.

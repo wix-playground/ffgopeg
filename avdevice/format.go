@@ -5,6 +5,7 @@
 package avdevice
 
 /*
+	#cgo CFLAGS: -Wno-deprecated-declarations
 	#cgo pkg-config: libavdevice
 	#include <libavdevice/avdevice.h>
 */

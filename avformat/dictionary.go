@@ -4,6 +4,7 @@
 
 package avformat
 
+//#cgo CFLAGS: -Wno-deprecated-declarations
 //#cgo pkg-config: libavutil
 //#include <libavutil/dict.h>
 //#include <stdlib.h>

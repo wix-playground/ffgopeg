@@ -6,6 +6,7 @@
 package swresample
 
 /*
+	#cgo CFLAGS: -Wno-deprecated-declarations
 	#cgo pkg-config: libswresample
 	#include <libswresample/swresample.h>
 */

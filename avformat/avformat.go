@@ -7,6 +7,7 @@
 //Supported formats (muxers and demuxers) provided by the libavformat library
 package avformat
 
+//#cgo CFLAGS: -Wno-deprecated-declarations
 //#cgo pkg-config: libavformat libavcodec libavutil libavdevice libavfilter libswresample libswscale
 //#include <stdio.h>
 //#include <stdlib.h>

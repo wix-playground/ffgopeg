@@ -4,6 +4,7 @@
 
 package avutil
 
+//#cgo CFLAGS: -Wno-deprecated-declarations
 //#cgo pkg-config: libavutil
 //#include <libavutil/avutil.h>
 import "C"

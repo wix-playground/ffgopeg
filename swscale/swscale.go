@@ -6,6 +6,7 @@
 //Pixel format conversion: is the process of converting the image format and colorspace of the image.
 package swscale
 
+//#cgo CFLAGS: -Wno-deprecated-declarations
 //#cgo pkg-config: libswscale libavutil
 //#include <stdio.h>
 //#include <stdlib.h>

@@ -5,6 +5,7 @@
 // Package avcodec contains the codecs (decoders and encoders) provided by the libavcodec library
 package avcodec
 
+//#cgo CFLAGS: -Wno-deprecated-declarations
 //#cgo pkg-config: libavformat libavcodec libavutil libswresample
 //#include <stdio.h>
 //#include <stdlib.h>

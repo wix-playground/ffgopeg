@@ -4,6 +4,7 @@
 
 package avutil
 
+//#cgo CFLAGS: -Wno-deprecated-declarations
 //#cgo pkg-config: libavcodec
 //#include <libavcodec/avcodec.h>
 //#include <libavutil/pixdesc.h>

@@ -3,6 +3,7 @@
 
 package swscale
 
+//#cgo CFLAGS: -Wno-deprecated-declarations
 //#cgo pkg-config: libswscale libavutil
 //#include <libswscale/swscale.h>
 import "C"
