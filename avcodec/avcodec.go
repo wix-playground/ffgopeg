@@ -13,6 +13,7 @@ package avcodec
 //#include <string.h>
 //#include <libavformat/avformat.h>
 //#include <libavcodec/avcodec.h>
+//#include <libavcodec/codec_par.h>
 //#include <libavutil/avutil.h>
 import "C"
 import (
@@ -56,6 +57,31 @@ type (
 	PacketSideDataType          C.enum_AVPacketSideDataType
 	// SampleFormat                C.enum_AVSampleFormat
 )
+
+const (
+	AV_FIELD_UNKNOWN     = C.AV_FIELD_UNKNOWN
+	AV_FIELD_PROGRESSIVE = C.AV_FIELD_PROGRESSIVE
+	AV_FIELD_TT          = C.AV_FIELD_TT
+	AV_FIELD_BB          = C.AV_FIELD_BB
+	AV_FIELD_TB          = C.AV_FIELD_TB
+	AV_FIELD_BT          = C.AV_FIELD_BT
+)
+
+var fieldOrderToString = map[FieldOrder]string{
+	AV_FIELD_UNKNOWN:     "unknown",
+	AV_FIELD_PROGRESSIVE: "progressive",
+	AV_FIELD_TT:          "tt",
+	AV_FIELD_BB:          "bb",
+	AV_FIELD_TB:          "tb",
+	AV_FIELD_BT:          "bt",
+}
+
+func (f FieldOrder) String() string {
+	if s, ok := fieldOrderToString[f]; ok {
+		return s
+	}
+	return "<unsupported field order value>"
+}
 
 // nextRegisteredCodec returns the codec registered after the given codec, or the first one if nil is given.
 //
