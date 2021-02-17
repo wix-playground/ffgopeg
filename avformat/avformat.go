@@ -17,6 +17,7 @@ package avformat
 //#include <libavcodec/avcodec.h>
 //#include <libavutil/avutil.h>
 //#include <libavutil/opt.h>
+//#include <libavutil/rational.h>
 //#include <libavdevice/avdevice.h>
 import "C"
 import (
@@ -89,6 +90,20 @@ func (ctxt *IOContext) Size() int64 {
 	return int64(C.avio_size((*C.struct_AVIOContext)(ctxt)))
 }
 
+func NewRational(num, den int) (rational Rational) {
+	rational.num = C.int(num)
+	rational.den = C.int(den)
+	return
+}
+
+func (r Rational) Num() int {
+	return int(r.num)
+}
+
+func (r Rational) Den() int {
+	return int(r.den)
+}
+
 func (r Rational) String() string {
 	return fmt.Sprintf("%v/%v", r.num, r.den)
 }
@@ -99,6 +114,12 @@ func (r Rational) Float32() float32 {
 
 func (r Rational) Float64() float64 {
 	return float64(r.num) / float64(r.den)
+}
+
+func (r Rational) Reduce(max int64) (result Rational) {
+	//int av_reduce(int *dst_num, int *dst_den, int64_t num, int64_t den, int64_t max);
+	C.av_reduce(&result.num, &result.den, C.int64_t(r.num), C.int64_t(r.den), C.int64_t(max))
+	return
 }
 
 // Register registers the InputFormat.
