@@ -6,6 +6,7 @@ package avformat
 
 //#cgo pkg-config: libavutil
 //#include <libavutil/dict.h>
+//#include <stdlib.h>
 import "C"
 
 // Count returns the number of entries in dictionary.
@@ -25,11 +26,15 @@ func (d *Dictionary) Get(key string) *DictionaryEntry {
 	return entry
 }
 
+var emptyString = C.CString("")
+
 func (d *Dictionary) ToMap() map[string]string {
 	m := make(map[string]string)
+
 	var entry *DictionaryEntry
 	for {
-		entry = (*DictionaryEntry)(C.av_dict_get((*C.struct_AVDictionary)(d), C.CString(""), (*C.struct_AVDictionaryEntry)(entry), C.AV_DICT_IGNORE_SUFFIX))
+		entry = (*DictionaryEntry)(C.av_dict_get((*C.struct_AVDictionary)(d), emptyString,
+			(*C.struct_AVDictionaryEntry)(entry), C.AV_DICT_IGNORE_SUFFIX))
 
 		if entry == nil {
 			break

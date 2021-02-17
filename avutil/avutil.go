@@ -28,6 +28,10 @@ type (
 	File        C.FILE
 )
 
+const (
+	AV_NOPTS_VALUE = C.AV_NOPTS_VALUE
+)
+
 // Version returns the LIBAVUTIL_VERSION_INT constant.
 //
 // C-Function: avutil_version
