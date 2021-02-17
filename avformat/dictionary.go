@@ -25,9 +25,26 @@ func (d *Dictionary) Get(key string) *DictionaryEntry {
 	return entry
 }
 
+func (d *Dictionary) ToMap() map[string]string {
+	m := make(map[string]string)
+	var entry *DictionaryEntry
+	for {
+		entry = (*DictionaryEntry)(C.av_dict_get((*C.struct_AVDictionary)(d), C.CString(""), (*C.struct_AVDictionaryEntry)(entry), C.AV_DICT_IGNORE_SUFFIX))
+
+		if entry == nil {
+			break
+		}
+		m[entry.Key()] = entry.Value()
+	}
+	return m
+}
+
 // Value returns the entry value.
 //
 // C-Variable: AVDictionaryEntry::value
+func (de *DictionaryEntry) Key() string {
+	return C.GoString(de.key)
+}
 func (de *DictionaryEntry) Value() string {
 	return C.GoString(de.value)
 }
