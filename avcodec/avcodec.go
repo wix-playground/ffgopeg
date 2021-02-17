@@ -274,6 +274,14 @@ func nextDescriptor(d *CodecDescriptor) *CodecDescriptor {
 	return (*CodecDescriptor)(C.avcodec_descriptor_next((*C.struct_AVCodecDescriptor)(d)))
 }
 
+func (d *CodecDescriptor) LongName() string {
+	if d == nil {
+		return "none"
+	}
+
+	return C.GoString(d.long_name)
+}
+
 // RegisteredCodecDescriptors returns a channel which can be used to iterate over the registered CodecDescriptor.
 //
 // C-Function: avcodec_descriptor_next

@@ -20,6 +20,7 @@ package avformat
 //#include <libavdevice/avdevice.h>
 import "C"
 import (
+	"fmt"
 	"unsafe"
 
 	"github.com/alon-ne/ffgopeg/avutil"
@@ -80,11 +81,35 @@ func (ctxt *IOContext) AvAppendPacket(pkt *Packet, s int) int {
 	return int(C.av_append_packet((*C.struct_AVIOContext)(ctxt), (*C.struct_AVPacket)(pkt), C.int(s)))
 }
 
+func (ctxt *IOContext) Size() int64 {
+	if ctxt == nil {
+		return -1
+	}
+
+	return int64(C.avio_size((*C.struct_AVIOContext)(ctxt)))
+}
+
+func (r Rational) String() string {
+	return fmt.Sprintf("%v/%v", r.num, r.den)
+}
+
+func (r Rational) Float32() float32 {
+	return float32(r.num) / float32(r.den)
+}
+
+func (r Rational) Float64() float64 {
+	return float64(r.num) / float64(r.den)
+}
+
 // Register registers the InputFormat.
 //
 // C-Function: av_register_input_format
 func (f *InputFormat) Register() {
 	C.av_register_input_format((*C.struct_AVInputFormat)(f))
+}
+
+func (f *InputFormat) LongName() string {
+	return C.GoString((*C.struct_AVInputFormat)(f).long_name)
 }
 
 // Register registers the OutputFormat.

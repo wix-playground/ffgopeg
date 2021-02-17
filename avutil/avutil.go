@@ -10,6 +10,8 @@ package avutil
 
 //#cgo pkg-config: libavutil
 //#include <libavutil/avutil.h>
+//#include <libavutil/channel_layout.h>
+//#include <libavutil/pixdesc.h>
 //#include <stdlib.h>
 import "C"
 import (
@@ -52,6 +54,17 @@ func License() string {
 // C-Function: av_get_media_type_string
 func MediaTypeString(mt MediaType) string {
 	return C.GoString(C.av_get_media_type_string((C.enum_AVMediaType)(mt)))
+}
+
+func PixelFormatString(pixelFormat int) string {
+	return C.GoString(C.av_get_pix_fmt_name(C.enum_AVPixelFormat(pixelFormat)))
+}
+
+func ChannelLayoutString(channelLayout uint64) string {
+	cString := C.malloc(256)
+	defer C.free(cString)
+	C.av_get_channel_layout_string((*C.char)(cString), 256, -1, C.uint64_t(channelLayout))
+	return C.GoString((*C.char)(cString))
 }
 
 // PictureTypeChar returns a single letter to describe the given picture type pict_type.

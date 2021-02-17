@@ -87,8 +87,8 @@ func (avs *Stream) CodecInfoNbFrames() int {
 
 //
 // C-Variable: AVStream::disposition
-func (avs *Stream) Disposition() int {
-	return int(avs.disposition)
+func (avs *Stream) Disposition() Disposition {
+	return Disposition(avs.disposition)
 }
 
 //
