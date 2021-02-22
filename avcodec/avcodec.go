@@ -226,7 +226,7 @@ func ChromaPosToEnum(x, y int) ChromaLocation {
 // GetCodecTagString returns a string representing the codec tag codec_tag.
 //
 // C-Function: av_get_codec_tag_string
-func GetCodecTagString(c uint) string {
+func GetCodecTagString(c uint32) string {
 	buffsize := 32
 	var neededSize int
 	var buf []C.char
