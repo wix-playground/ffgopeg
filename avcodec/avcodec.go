@@ -78,9 +78,14 @@ var fieldOrderToString = map[FieldOrder]string{
 }
 
 func (f FieldOrder) String() string {
+	if f == AV_FIELD_UNKNOWN {
+		return ""
+	}
+
 	if s, ok := fieldOrderToString[f]; ok {
 		return s
 	}
+
 	return "<unsupported field order value>"
 }
 

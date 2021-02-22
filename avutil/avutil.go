@@ -66,6 +66,10 @@ func PixelFormatString(pixelFormat int) string {
 }
 
 func ChannelLayoutString(channelLayout uint64) string {
+	if channelLayout == 0 {
+		return ""
+	}
+
 	cString := C.malloc(256)
 	defer C.free(cString)
 	C.av_get_channel_layout_string((*C.char)(cString), 256, -1, C.uint64_t(channelLayout))
