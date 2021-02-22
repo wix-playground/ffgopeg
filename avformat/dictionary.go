@@ -29,9 +29,7 @@ func (d *Dictionary) Get(key string) *DictionaryEntry {
 
 var emptyString = C.CString("")
 
-func (d *Dictionary) ToMap() map[string]string {
-	m := make(map[string]string)
-
+func (d *Dictionary) ToMap() (m map[string]string) {
 	var entry *DictionaryEntry
 	for {
 		entry = (*DictionaryEntry)(C.av_dict_get((*C.struct_AVDictionary)(d), emptyString,
@@ -40,9 +38,14 @@ func (d *Dictionary) ToMap() map[string]string {
 		if entry == nil {
 			break
 		}
+
+		if m == nil {
+			m = map[string]string{}
+		}
+
 		m[entry.Key()] = entry.Value()
 	}
-	return m
+	return
 }
 
 // Value returns the entry value.
