@@ -22,28 +22,34 @@ const (
 	AV_DISPOSITION_TIMED_THUMBNAILS = Disposition(C.AV_DISPOSITION_TIMED_THUMBNAILS)
 )
 
-func (d Disposition) ToMap() map[string]int {
-	m := make(map[string]int)
-	d.addMapEntry(m, "default", AV_DISPOSITION_DEFAULT)
-	d.addMapEntry(m, "dub", AV_DISPOSITION_DUB)
-	d.addMapEntry(m, "original", AV_DISPOSITION_ORIGINAL)
-	d.addMapEntry(m, "comment", AV_DISPOSITION_COMMENT)
-	d.addMapEntry(m, "lyrics", AV_DISPOSITION_LYRICS)
-	d.addMapEntry(m, "karaoke", AV_DISPOSITION_KARAOKE)
-	d.addMapEntry(m, "forced", AV_DISPOSITION_FORCED)
-	d.addMapEntry(m, "hearing_impaired", AV_DISPOSITION_HEARING_IMPAIRED)
-	d.addMapEntry(m, "visual_impaired", AV_DISPOSITION_VISUAL_IMPAIRED)
-	d.addMapEntry(m, "clean_effects", AV_DISPOSITION_CLEAN_EFFECTS)
-	d.addMapEntry(m, "attached_pic", AV_DISPOSITION_ATTACHED_PIC)
-	d.addMapEntry(m, "timed_thumbnails", AV_DISPOSITION_TIMED_THUMBNAILS)
-
-	return m
+var dispositionMaskNames = map[Disposition]string{
+	AV_DISPOSITION_DEFAULT:          "default",
+	AV_DISPOSITION_DUB:              "dub",
+	AV_DISPOSITION_ORIGINAL:         "original",
+	AV_DISPOSITION_COMMENT:          "comment",
+	AV_DISPOSITION_LYRICS:           "lyrics",
+	AV_DISPOSITION_KARAOKE:          "karaoke",
+	AV_DISPOSITION_FORCED:           "forced",
+	AV_DISPOSITION_HEARING_IMPAIRED: "hearing_impaired",
+	AV_DISPOSITION_VISUAL_IMPAIRED:  "visual_impaired",
+	AV_DISPOSITION_CLEAN_EFFECTS:    "clean_effects",
+	AV_DISPOSITION_ATTACHED_PIC:     "attached_pic",
+	AV_DISPOSITION_TIMED_THUMBNAILS: "timed_thumbnails",
 }
 
-func (d Disposition) addMapEntry(m map[string]int, name string, mask Disposition) {
-	value := 0
-	if d&mask != 0 {
-		value = 1
+func (d Disposition) Strings() (strings []string) {
+	for mask, name := range dispositionMaskNames {
+		if d&mask != 0 {
+			strings = append(strings, name)
+		}
 	}
-	m[name] = value
+
+	return strings
+}
+
+func (d Disposition) addString(l []string, name string, mask Disposition) []string {
+	if d&mask != 0 {
+		l = append(l, name)
+	}
+	return l
 }
