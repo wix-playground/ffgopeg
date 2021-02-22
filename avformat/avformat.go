@@ -109,6 +109,10 @@ func (r Rational) String() string {
 	return fmt.Sprintf("%v/%v", r.num, r.den)
 }
 
+func (r Rational) RatioString() string {
+	return fmt.Sprintf("%v:%v", r.num, r.den)
+}
+
 func (r Rational) Float32() float32 {
 	return float32(r.num) / float32(r.den)
 }
