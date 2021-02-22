@@ -44,12 +44,5 @@ func (d Disposition) Strings() (strings []string) {
 		}
 	}
 
-	return strings
-}
-
-func (d Disposition) addString(l []string, name string, mask Disposition) []string {
-	if d&mask != 0 {
-		l = append(l, name)
-	}
-	return l
+	return
 }
