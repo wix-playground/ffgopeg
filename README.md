@@ -4,11 +4,7 @@ This go library provides bindings for ffmpeg.
 Its main goal is to make the ffmpeg library accessable in a way that feels natural in the go language.
 This library is based on [giorgisio/goav](https://github.com/giorgisio/goav) and will differ in the following ways.
 
-- Target ffmpeg version: 3.1.n
-- No deprecated functions.
-- OOP-Style where applicable, see [Mapping ffmpeg function names to go](#mapping-ffmpeg-function-names-to-go).
-- Renaming of functions to make sense in the go context, again see [Mapping ffmpeg function names to go](#mapping-ffmpeg-function-names-to-go).
-- I merged some pending pull request on the original.
+- Target ffmpeg version: 4.x
 
 ## Current state
 
@@ -28,10 +24,10 @@ A first version is going to come soon but feel free to checkout the develop-bran
 Installing or updating.
 
 ```
-go get -u gopkg.in/targodan/ffgopeg.v1
+go get -u github.com/wix-playground/ffgopeg
 ```
 
-This will install the latest version 1.n.m release.
+This will install the latest version 1.x release.
 See [Versioning](#versioning).
 
 The ffmpeg libraries are in theire own packages.
