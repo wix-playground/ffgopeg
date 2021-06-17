@@ -59,15 +59,15 @@ func FilterPadCount() ([]*FilterPad, avutil.ReturnCode) {
 	var p *FilterPad
 	err := avutil.NewReturnCode(int(C.avfilter_pad_count((*C.struct_AVFilterPad)(p))))
 	arr := (*[1 << 30]*FilterPad)(unsafe.Pointer(p))
-	var len int
+	var length int
 	// Determine length
 	for i, v := range arr {
 		if v == nil {
-			len = i
+			length = i
 			break
 		}
 	}
-	return arr[:len:len], err
+	return arr[:length:length], err
 }
 
 // Name returns the name of a FilterPad.

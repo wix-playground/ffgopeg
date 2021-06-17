@@ -42,6 +42,6 @@ func (v *Vector) Normalize(height float64) {
 // Free frees the vector.
 //
 // C-Function: sws_freeVec
-func (a *Vector) Free() {
-	C.sws_freeVec((*C.struct_SwsVector)(a))
+func (v *Vector) Free() {
+	C.sws_freeVec((*C.struct_SwsVector)(v))
 }

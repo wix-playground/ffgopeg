@@ -91,24 +91,24 @@ func (c *Codec) LongName() string {
 	return C.GoString(c.long_name)
 }
 
-// PixFmts returns an array of support pixel format, see AV_PIX_FMT_xxx.
+// SupportedPixelFormats returns an array of support pixel format, see AV_PIX_FMT_xxx.
 //
 // C-Field: AVCodec::pix_fmts
-func (c *Codec) PixFmts() []avutil.PixelFormat {
+func (c *Codec) SupportedPixelFormats() []avutil.PixelFormat {
 	arr := (*[1 << 30]avutil.PixelFormat)(unsafe.Pointer(c.pix_fmts))
-	var len int
-	for len = 0; arr[len] != -1; len++ {
+	var length int
+	for length = 0; arr[length] != -1; length++ {
 	}
-	return arr[:len:len]
+	return arr[:length:length]
 }
 
-// SampleFmts returns the suppoted sample formats.
+// SupportedSampleFormats returns the supported sample formats.
 //
 // C-Variable: AVCodec::sample_fmts
-func (c *Codec) SampleFmts() []avutil.SampleFormat {
+func (c *Codec) SupportedSampleFormats() []avutil.SampleFormat {
 	arr := (*[1 << 30]avutil.SampleFormat)(unsafe.Pointer(c.sample_fmts))
-	var len int
-	for len = 0; arr[len] != -1; len++ {
+	var length int
+	for length = 0; arr[length] != -1; length++ {
 	}
-	return arr[:len:len]
+	return arr[:length:length]
 }

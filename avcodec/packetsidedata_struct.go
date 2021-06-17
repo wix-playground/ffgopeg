@@ -9,18 +9,18 @@ import "unsafe"
 // Data returns the data.
 //
 // C-Field: AVPacketSideData::data
-func (sd *PacketSideData) Data() []uint8 {
-	return (*[1 << 30]uint8)(unsafe.Pointer(sd.data))[:sd.Size():sd.Size()]
+func (d *PacketSideData) Data() []uint8 {
+	return (*[1 << 30]uint8)(unsafe.Pointer(d.data))[:d.Size():d.Size()]
 }
 
 // Size returns size of the data.
 //
 // C-Field: AVPacketSideData::size
-func (sd *PacketSideData) Size() int {
-	return int(sd.size)
+func (d *PacketSideData) Size() int {
+	return int(d.size)
 }
 
 // Type returns the type of the side data.
-func (sd *PacketSideData) Type() PacketSideDataType {
-	return PacketSideDataType(sd._type)
+func (d *PacketSideData) Type() PacketSideDataType {
+	return PacketSideDataType(d._type)
 }

@@ -30,32 +30,28 @@ type (
 	FrameSideDataType C.enum_AVFrameSideDataType
 )
 
-func comparePointers(a, b unsafe.Pointer) uintptr {
-	return uintptr(C.ComparePointers(a, b))
-}
-
 func MACRO_NUM_DATA_POINTERS() int {
 	return int(C.MACRO_NUM_DATA_POINTERS())
 }
 
-// Metadatap returns metadatap.
+// Metadata returns metadatap.
 //
 // C-Function: avpriv_frame_get_metadatap
-func (f *Frame) Metadatap() **Dictionary {
+func (f *Frame) Metadata() **Dictionary {
 	return (**Dictionary)(unsafe.Pointer(((*C.struct_AVFrame)(unsafe.Pointer(f))).metadata))
 }
 
-// SetQpTable sets the qp table.
+// SetQPTable sets the qp table.
 //
 // C-Function: av_frame_set_qp_table
-func (f *Frame) SetQpTable(b *BufferRef, s, q int) int {
+func (f *Frame) SetQPTable(b *BufferRef, s, q int) int {
 	return int(C.av_frame_set_qp_table((*C.struct_AVFrame)(unsafe.Pointer(f)), (*C.struct_AVBufferRef)(unsafe.Pointer(b)), C.int(s), C.int(q)))
 }
 
-// QpTable returns the qp table.
+// QPTable returns the qp table.
 //
 // C-Function: av_frame_get_qp_table
-func (f *Frame) QpTable(stride, t *int) int8 {
+func (f *Frame) QPTable(stride, t *int) int8 {
 	return int8(*C.av_frame_get_qp_table((*C.struct_AVFrame)(unsafe.Pointer(f)), (*C.int)(unsafe.Pointer(stride)), (*C.int)(unsafe.Pointer(t))))
 }
 
@@ -102,7 +98,7 @@ func (f *Frame) Unref() {
 	C.av_frame_unref(cf)
 }
 
-// FrameMoveRef moves everythnig contained in src to dst and reset src.
+// FrameMoveRef moves everything contained in src to dst and reset src.
 //
 // C-Function: av_frame_move_ref
 func FrameMoveRef(d, s *Frame) {
@@ -180,4 +176,8 @@ func (f *Frame) Linesize(i int) int {
 // C-Variable: AVFrame::nb_frames
 func (f *Frame) NbSamples() int {
 	return int(f.nb_samples)
+}
+
+func comparePointers(a, b unsafe.Pointer) uintptr {
+	return uintptr(C.ComparePointers(a, b))
 }

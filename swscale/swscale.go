@@ -81,8 +81,8 @@ func IsSupportedEndiannessConversion(p PixelFormat) bool {
 // Scale scales the image slice in srcSlice and put the resulting scaled slice in the image in dst.
 //
 // C-Function: sws_scale
-func (ctxt *Context) Scale(src *uint8, str int, y, h int, d *uint8, ds int) int {
-	cctxt := (*C.struct_SwsContext)(unsafe.Pointer(ctxt))
+func (c *Context) Scale(src *uint8, str int, y, h int, d *uint8, ds int) int {
+	cctxt := (*C.struct_SwsContext)(unsafe.Pointer(c))
 	csrc := (*C.uint8_t)(unsafe.Pointer(src))
 	cstr := (*C.int)(unsafe.Pointer(&str))
 	cd := (*C.uint8_t)(unsafe.Pointer(d))
@@ -93,10 +93,10 @@ func (ctxt *Context) Scale(src *uint8, str int, y, h int, d *uint8, ds int) int 
 // SetColorspaceDetails sets the colorspace details.
 //
 // C-Function: sws_setColorspaceDetails
-func (ctxt *Context) SetColorspaceDetails(it *int, sr int, t *int, dr, b, c, s int) int {
+func (c *Context) SetColorspaceDetails(it *int, sr int, t *int, dr, b, c, s int) int {
 	cit := (*C.int)(unsafe.Pointer(it))
 	ct := (*C.int)(unsafe.Pointer(t))
-	return int(C.sws_setColorspaceDetails((*C.struct_SwsContext)(ctxt), cit, C.int(sr), ct, C.int(dr), C.int(b), C.int(c), C.int(s)))
+	return int(C.sws_setColorspaceDetails((*C.struct_SwsContext)(c), cit, C.int(sr), ct, C.int(dr), C.int(b), C.int(c), C.int(s)))
 }
 
 // ColorspaceDetails returns the colorspace details.

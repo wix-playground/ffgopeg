@@ -14,290 +14,268 @@ import (
 	"github.com/wix-playground/ffgopeg/avcodec"
 )
 
-//
 // C-Variable: AVStream::codec
-func (avs *Stream) CodecContext() *avcodec.CodecContext {
-	return (*avcodec.CodecContext)(unsafe.Pointer(avs.codec))
+func (s *Stream) CodecContext() *avcodec.CodecContext {
+	return (*avcodec.CodecContext)(unsafe.Pointer(s.codec))
 }
 
-//
 // C-Variable: AVStream::metadata
-func (avs *Stream) Metadata() *Dictionary {
-	return (*Dictionary)(unsafe.Pointer(avs.metadata))
+func (s *Stream) Metadata() *Dictionary {
+	return (*Dictionary)(unsafe.Pointer(s.metadata))
 }
 
-//
 // C-Variable: AVStream::index_entries
-func (avs *Stream) IndexEntries() *IndexEntry {
-	return (*IndexEntry)(unsafe.Pointer(avs.index_entries))
+func (s *Stream) IndexEntries() *IndexEntry {
+	return (*IndexEntry)(unsafe.Pointer(s.index_entries))
 }
 
-//
 // C-Variable: AVStream::attached_pic
-func (avs *Stream) AttachedPic() Packet {
-	return Packet(avs.attached_pic)
+func (s *Stream) AttachedPic() Packet {
+	return Packet(s.attached_pic)
 }
 
-//
 // C-Variable: AVStream::probe_data
-func (avs *Stream) ProbeData() ProbeData {
-	return ProbeData(avs.probe_data)
+func (s *Stream) ProbeData() ProbeData {
+	return ProbeData(s.probe_data)
 }
 
-//
 // C-Variable: AVStream::avg_frame_rate
-func (avs *Stream) AvgFrameRate() Rational {
-	return Rational(avs.avg_frame_rate)
+func (s *Stream) AvgFrameRate() Rational {
+	return Rational(s.avg_frame_rate)
 }
 
-//
 // C-Variable: AVStream::r_frame_rate
-func (avs *Stream) RFrameRate() Rational {
-	return Rational(avs.r_frame_rate)
+func (s *Stream) RFrameRate() Rational {
+	return Rational(s.r_frame_rate)
 }
 
-//
 // C-Variable: AVStream::sample_aspect_ratio
-func (avs *Stream) SampleAspectRatio() Rational {
-	return Rational(avs.sample_aspect_ratio)
+func (s *Stream) SampleAspectRatio() Rational {
+	return Rational(s.sample_aspect_ratio)
 }
 
-//
 // C-Variable: AVStream::time_base
-func (avs *Stream) TimeBase() Rational {
-	return Rational(avs.time_base)
+func (s *Stream) TimeBase() Rational {
+	return Rational(s.time_base)
 }
 
-//
 // C-Variable: AVStream::discard
-func (avs *Stream) Discard() Discard {
-	return Discard(avs.discard)
+func (s *Stream) Discard() Discard {
+	return Discard(s.discard)
 }
 
-//
 // C-Variable: AVStream::need_parsing
-func (avs *Stream) NeedParsing() StreamParseType {
-	return StreamParseType(avs.need_parsing)
+func (s *Stream) NeedParsing() StreamParseType {
+	return StreamParseType(s.need_parsing)
 }
 
-//
 // C-Variable: AVStream::codec_info_nb_frames
-func (avs *Stream) CodecInfoNbFrames() int {
-	return int(avs.codec_info_nb_frames)
+func (s *Stream) CodecInfoNbFrames() int {
+	return int(s.codec_info_nb_frames)
 }
 
-//
 // C-Variable: AVStream::disposition
-func (avs *Stream) Disposition() Disposition {
-	return Disposition(avs.disposition)
+func (s *Stream) Disposition() Disposition {
+	return Disposition(s.disposition)
 }
 
-//
 // C-Variable: AVStream::event_flags
-func (avs *Stream) EventFlags() int {
-	return int(avs.event_flags)
+func (s *Stream) EventFlags() int {
+	return int(s.event_flags)
 }
 
-//
 // C-Variable: AVStream::id
-func (avs *Stream) Id() int {
-	return int(avs.id)
+func (s *Stream) Id() int {
+	return int(s.id)
 }
 
-//
 // C-Variable: AVStream::index
-func (avs *Stream) Index() int {
-	return int(avs.index)
+func (s *Stream) Index() int {
+	return int(s.index)
 }
 
-//
 // C-Variable: AVStream::inject_global_side_data
-func (avs *Stream) InjectGlobalSideData() int {
-	return int(avs.inject_global_side_data)
+func (s *Stream) InjectGlobalSideData() int {
+	return int(s.inject_global_side_data)
 }
 
-//
 // C-Variable: AVStream::last_
-func (avs *Stream) LastIpDuration() int {
-	return int(avs.last_IP_duration)
+func (s *Stream) LastIpDuration() int {
+	return int(s.last_IP_duration)
 }
 
-//
 // C-Variable: AVStream::nb_decoded_frames
-func (avs *Stream) NbDecodedFrames() int {
-	return int(avs.nb_decoded_frames)
+func (s *Stream) NbDecodedFrames() int {
+	return int(s.nb_decoded_frames)
 }
 
-//
 // C-Variable: AVStream::nb_index_entries
-func (avs *Stream) NbIndexEntries() int {
-	return int(avs.nb_index_entries)
+func (s *Stream) NbIndexEntries() int {
+	return int(s.nb_index_entries)
 }
 
-//
 // C-Variable: AVStream::nb_side_data
-func (avs *Stream) NbSideData() int {
-	return int(avs.nb_side_data)
+func (s *Stream) NbSideData() int {
+	return int(s.nb_side_data)
 }
 
-//
 // C-Variable: AVStream::probe_packets
-func (avs *Stream) ProbePackets() int {
-	return int(avs.probe_packets)
+func (s *Stream) ProbePackets() int {
+	return int(s.probe_packets)
 }
 
 //
 // C-Variable: AVStream::pts_wrap_behavior
-func (avs *Stream) PtsWrapBehavior() int {
-	return int(avs.pts_wrap_behavior)
+func (s *Stream) PtsWrapBehavior() int {
+	return int(s.pts_wrap_behavior)
 }
 
 //
 // C-Variable: AVStream::request_probe
-func (avs *Stream) RequestProbe() int {
-	return int(avs.request_probe)
+func (s *Stream) RequestProbe() int {
+	return int(s.request_probe)
 }
 
 //
 // C-Variable: AVStream::skip_samples
-func (avs *Stream) SkipSamples() int {
-	return int(avs.skip_samples)
+func (s *Stream) SkipSamples() int {
+	return int(s.skip_samples)
 }
 
 //
 // C-Variable: AVStream::skip_to_keyframe
-func (avs *Stream) SkipToKeyframe() int {
-	return int(avs.skip_to_keyframe)
+func (s *Stream) SkipToKeyframe() int {
+	return int(s.skip_to_keyframe)
 }
 
 //
 // C-Variable: AVStream::stream_identifier
-func (avs *Stream) StreamIdentifier() int {
-	return int(avs.stream_identifier)
+func (s *Stream) StreamIdentifier() int {
+	return int(s.stream_identifier)
 }
 
 //
 // C-Variable: AVStream::update_initial_durations_done
-func (avs *Stream) UpdateInitialDurationsDone() int {
-	return int(avs.update_initial_durations_done)
+func (s *Stream) UpdateInitialDurationsDone() int {
+	return int(s.update_initial_durations_done)
 }
 
 //
 // C-Variable: AVStream::cur_dts
-func (avs *Stream) CurDts() int64 {
-	return int64(avs.cur_dts)
+func (s *Stream) CurDts() int64 {
+	return int64(s.cur_dts)
 }
 
 //
 // C-Variable: AVStream::duration
-func (avs *Stream) Duration() int64 {
-	return int64(avs.duration)
+func (s *Stream) Duration() int64 {
+	return int64(s.duration)
 }
 
 //
 // C-Variable: AVStream::first_dts
-func (avs *Stream) FirstDts() int64 {
-	return int64(avs.first_dts)
+func (s *Stream) FirstDts() int64 {
+	return int64(s.first_dts)
 }
 
 //
 // C-Variable: AVStream::interleaver_chunk_duration
-func (avs *Stream) InterleaverChunkDuration() int64 {
-	return int64(avs.interleaver_chunk_duration)
+func (s *Stream) InterleaverChunkDuration() int64 {
+	return int64(s.interleaver_chunk_duration)
 }
 
 //
 // C-Variable: AVStream::interleaver_chunk_size
-func (avs *Stream) InterleaverChunkSize() int64 {
-	return int64(avs.interleaver_chunk_size)
+func (s *Stream) InterleaverChunkSize() int64 {
+	return int64(s.interleaver_chunk_size)
 }
 
 //
 // C-Variable: AVStream::last_dts_for_order_check
-func (avs *Stream) LastDtsForOrderCheck() int64 {
-	return int64(avs.last_dts_for_order_check)
+func (s *Stream) LastDtsForOrderCheck() int64 {
+	return int64(s.last_dts_for_order_check)
 }
 
 //
 // C-Variable: AVStream::last_
-func (avs *Stream) LastIpPts() int64 {
-	return int64(avs.last_IP_pts)
+func (s *Stream) LastIpPts() int64 {
+	return int64(s.last_IP_pts)
 }
 
 //
 // C-Variable: AVStream::mux_ts_offset
-func (avs *Stream) MuxTsOffset() int64 {
-	return int64(avs.mux_ts_offset)
+func (s *Stream) MuxTsOffset() int64 {
+	return int64(s.mux_ts_offset)
 }
 
 //
 // C-Variable: AVStream::nb_frames
-func (avs *Stream) NbFrames() int64 {
-	return int64(avs.nb_frames)
+func (s *Stream) NbFrames() int64 {
+	return int64(s.nb_frames)
 }
 
 //
 // C-Variable: AVStream::pts_buffer
-func (avs *Stream) PtsBuffer() int64 {
-	return int64(avs.pts_buffer[0])
+func (s *Stream) PtsBuffer() int64 {
+	return int64(s.pts_buffer[0])
 }
 
 //
 // C-Variable: AVStream::pts_reorder_error
-func (avs *Stream) PtsReorderError() int64 {
-	return int64(avs.pts_reorder_error[0])
+func (s *Stream) PtsReorderError() int64 {
+	return int64(s.pts_reorder_error[0])
 }
 
 //
 // C-Variable: AVStream::pts_wrap_reference
-func (avs *Stream) PtsWrapReference() int64 {
-	return int64(avs.pts_wrap_reference)
+func (s *Stream) PtsWrapReference() int64 {
+	return int64(s.pts_wrap_reference)
 }
 
 //
 // C-Variable: AVStream::start_time
-func (avs *Stream) StartTime() int64 {
-	return int64(avs.start_time)
+func (s *Stream) StartTime() int64 {
+	return int64(s.start_time)
 }
 
 //
 // C-Variable: AVStream::parser
-func (avs *Stream) Parser() *CodecParserContext {
-	return (*CodecParserContext)(unsafe.Pointer(avs.parser))
+func (s *Stream) Parser() *CodecParserContext {
+	return (*CodecParserContext)(unsafe.Pointer(s.parser))
 }
 
 //
 // C-Variable: AVStream::last_in_packet_buffer
-func (avs *Stream) LastInPacketBuffer() *PacketList {
-	return (*PacketList)(unsafe.Pointer(avs.last_in_packet_buffer))
+func (s *Stream) LastInPacketBuffer() *PacketList {
+	return (*PacketList)(unsafe.Pointer(s.last_in_packet_buffer))
 }
 
 //
 // C-Variable: AVStream::dts_misordered
-func (avs *Stream) DtsMisordered() uint8 {
-	return uint8(avs.dts_misordered)
+func (s *Stream) DtsMisordered() uint8 {
+	return uint8(s.dts_misordered)
 }
 
 //
 // C-Variable: AVStream::dts_ordered
-func (avs *Stream) DtsOrdered() uint8 {
-	return uint8(avs.dts_ordered)
+func (s *Stream) DtsOrdered() uint8 {
+	return uint8(s.dts_ordered)
 }
 
 //
 // C-Variable: AVStream::pts_reorder_error_count
-func (avs *Stream) PtsReorderErrorCount() uint8 {
-	return uint8(avs.pts_reorder_error_count[0])
+func (s *Stream) PtsReorderErrorCount() uint8 {
+	return uint8(s.pts_reorder_error_count[0])
 }
 
 //
 // C-Variable: AVStream::index_entries_allocated_size
-func (avs *Stream) IndexEntriesAllocatedSize() uint {
-	return uint(avs.index_entries_allocated_size)
+func (s *Stream) IndexEntriesAllocatedSize() uint {
+	return uint(s.index_entries_allocated_size)
 }
 
 //
 // C-Variable: AVStream::codecpar
-func (avs *Stream) CodecPar() *avcodec.CodecParameters {
-	return (*avcodec.CodecParameters)(unsafe.Pointer(avs.codecpar))
+func (s *Stream) CodecPar() *avcodec.CodecParameters {
+	return (*avcodec.CodecParameters)(unsafe.Pointer(s.codecpar))
 }

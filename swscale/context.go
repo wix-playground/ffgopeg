@@ -21,15 +21,15 @@ func NewContext() *Context {
 // Init initializes the swscaler context sws_context.
 //
 // C-Function: sws_init_context
-func (ctxt *Context) Init(sf, df *Filter) int {
-	return int(C.sws_init_context((*C.struct_SwsContext)(ctxt), (*C.struct_SwsFilter)(sf), (*C.struct_SwsFilter)(df)))
+func (c *Context) Init(sf, df *Filter) int {
+	return int(C.sws_init_context((*C.struct_SwsContext)(c), (*C.struct_SwsFilter)(sf), (*C.struct_SwsFilter)(df)))
 }
 
 // Free frees the swscaler context swsContext.
 //
 // C-Function: sws_freeContext
-func (ctxt *Context) Free() {
-	C.sws_freeContext((*C.struct_SwsContext)(ctxt))
+func (c *Context) Free() {
+	C.sws_freeContext((*C.struct_SwsContext)(c))
 }
 
 // NewContextOpts allocates and returns an Context.

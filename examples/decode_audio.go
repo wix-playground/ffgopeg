@@ -50,7 +50,7 @@ func findFirstAudioStream(ctxt *avformat.FormatContext) (int, error) {
 func printStreamInformation(codec *avcodec.Codec, codecCtxt *avcodec.CodecContext, audioStreamIndex int) {
 	fmt.Fprintf(os.Stderr, "Codec: %s\n", codec.LongName())
 	fmt.Fprint(os.Stderr, "Supported sample formats: ")
-	for _, f := range codec.SampleFmts() {
+	for _, f := range codec.SupportedSampleFormats() {
 		fmt.Fprintf(os.Stderr, "%s, ", f.Name())
 	}
 	fmt.Fprintf(os.Stderr, "\n")

@@ -70,25 +70,25 @@ type File C.FILE
 // GetPacket allocates and reads the payload of a packet and initialize its fields with default values.
 //
 // C-Function: av_get_packet
-func (ctxt *IOContext) GetPacket(size int) (*Packet, avutil.ReturnCode) {
+func (c *IOContext) GetPacket(size int) (*Packet, avutil.ReturnCode) {
 	var pkt *Packet
-	code := avutil.NewReturnCode(int(C.av_get_packet((*C.struct_AVIOContext)(ctxt), (*C.struct_AVPacket)(pkt), C.int(size))))
+	code := avutil.NewReturnCode(int(C.av_get_packet((*C.struct_AVIOContext)(c), (*C.struct_AVPacket)(pkt), C.int(size))))
 	return pkt, code
 }
 
 //Read data and append it to the current content of the Packet.
 //
 // C-Function: av_append_packet
-func (ctxt *IOContext) AvAppendPacket(pkt *Packet, s int) int {
-	return int(C.av_append_packet((*C.struct_AVIOContext)(ctxt), (*C.struct_AVPacket)(pkt), C.int(s)))
+func (c *IOContext) AvAppendPacket(pkt *Packet, s int) int {
+	return int(C.av_append_packet((*C.struct_AVIOContext)(c), (*C.struct_AVPacket)(pkt), C.int(s)))
 }
 
-func (ctxt *IOContext) Size() int64 {
-	if ctxt == nil {
+func (c *IOContext) Size() int64 {
+	if c == nil {
 		return -1
 	}
 
-	return int64(C.avio_size((*C.struct_AVIOContext)(ctxt)))
+	return int64(C.avio_size((*C.struct_AVIOContext)(c)))
 }
 
 func NewRational(num, den int) (rational Rational) {
@@ -176,7 +176,7 @@ func InputFormats() <-chan *InputFormat {
 	return ch
 }
 
-func oformatNext(f *OutputFormat) *OutputFormat {
+func oFormatNext(f *OutputFormat) *OutputFormat {
 	return (*OutputFormat)(C.av_oformat_next((*C.struct_AVOutputFormat)(f)))
 }
 
@@ -195,7 +195,7 @@ func OutputFormats() <-chan *OutputFormat {
 	var e *OutputFormat
 	go func() {
 		for {
-			e = oformatNext(e)
+			e = oFormatNext(e)
 			if e == nil {
 				break
 			}
@@ -315,8 +315,9 @@ func ProbeInputFormat2(pd *ProbeData, isOpened bool, scoreMax int) (*InputFormat
 	} else {
 		iOpened = 0
 	}
-	fmt := (*InputFormat)(C.av_probe_input_format2((*C.struct_AVProbeData)(pd), C.int(iOpened), (*C.int)(unsafe.Pointer(&scoreMax))))
-	return fmt, scoreMax
+
+	inputFormat := (*InputFormat)(C.av_probe_input_format2((*C.struct_AVProbeData)(pd), C.int(iOpened), (*C.int)(unsafe.Pointer(&scoreMax))))
+	return inputFormat, scoreMax
 }
 
 // ProbeInputFormat3 guesses the file format.
@@ -330,27 +331,28 @@ func ProbeInputFormat3(pd *ProbeData, isOpened bool) (*InputFormat, int) {
 		iOpened = 0
 	}
 	var score int
-	fmt := (*InputFormat)(C.av_probe_input_format3((*C.struct_AVProbeData)(pd), C.int(iOpened), (*C.int)(unsafe.Pointer(&score))))
-	return fmt, score
+
+	inputFormat := (*InputFormat)(C.av_probe_input_format3((*C.struct_AVProbeData)(pd), C.int(iOpened), (*C.int)(unsafe.Pointer(&score))))
+	return inputFormat, score
 }
 
 // ProbeInputBuffer probes a bytestream to determine the input format.
 //
 // C-Function: av_probe_input_buffer2
-func (pb *IOContext) ProbeInputBuffer(url string, offset, maxProbeSize uint) (*InputFormat, avutil.ReturnCode) {
-	var f *InputFormat
+func (c *IOContext) ProbeInputBuffer(url string, offset, maxProbeSize uint) (*InputFormat, avutil.ReturnCode) {
+	var inputFormat *InputFormat
 	var l int // TODO: this doesn't make any sense
-	code := avutil.NewReturnCode(int(C.av_probe_input_buffer2((*C.struct_AVIOContext)(pb), (**C.struct_AVInputFormat)(unsafe.Pointer(&f)), C.CString(url), unsafe.Pointer(&l), C.uint(offset), C.uint(maxProbeSize))))
-	return f, code
+	code := avutil.NewReturnCode(int(C.av_probe_input_buffer2((*C.struct_AVIOContext)(c), (**C.struct_AVInputFormat)(unsafe.Pointer(&inputFormat)), C.CString(url), unsafe.Pointer(&l), C.uint(offset), C.uint(maxProbeSize))))
+	return inputFormat, code
 }
 
 // OpenInput opens an input stream and reads the header.
 //
 // C-Function: avformat_open_input
 func OpenInput(url string, fmt *InputFormat, options **Dictionary) (*FormatContext, avutil.ReturnCode) {
-	var ctxt *FormatContext
-	err := avutil.NewReturnCode(int(C.avformat_open_input((**C.struct_AVFormatContext)(unsafe.Pointer(&ctxt)), C.CString(url), (*C.struct_AVInputFormat)(fmt), (**C.struct_AVDictionary)(unsafe.Pointer(options)))))
-	return ctxt, err
+	var ctx *FormatContext
+	err := avutil.NewReturnCode(int(C.avformat_open_input((**C.struct_AVFormatContext)(unsafe.Pointer(&ctx)), C.CString(url), (*C.struct_AVInputFormat)(fmt), (**C.struct_AVDictionary)(unsafe.Pointer(options)))))
+	return ctx, err
 }
 
 //Return the output format in the list of registered output formats which best matches the provided parameters, or return NULL if there is no match.
@@ -475,7 +477,6 @@ func AvformatQueryCodec(o *OutputFormat, cd CodecId, sc int) int {
 	return int(C.avformat_query_codec((*C.struct_AVOutputFormat)(o), (C.enum_AVCodecID)(cd), C.int(sc)))
 }
 
-//
 // C-Function: avformat_get_riff_video_tags
 func AvformatGetRiffVideoTags() *CodecTag {
 	return (*CodecTag)(C.avformat_get_riff_video_tags())
@@ -488,13 +489,11 @@ func AvformatGetRiffAudioTags() *CodecTag {
 	return (*CodecTag)(C.avformat_get_riff_audio_tags())
 }
 
-//
 // C-Function: avformat_get_mov_video_tags
 func AvformatGetMovVideoTags() *CodecTag {
 	return (*CodecTag)(C.avformat_get_mov_video_tags())
 }
 
-//
 // C-Function: avformat_get_mov_audio_tags
 func AvformatGetMovAudioTags() *CodecTag {
 	return (*CodecTag)(C.avformat_get_mov_audio_tags())

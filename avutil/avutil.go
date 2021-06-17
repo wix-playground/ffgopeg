@@ -57,8 +57,8 @@ func License() string {
 // MediaTypeString returns a string describing the media_type enum, NULL if media_type is unknown.
 //
 // C-Function: av_get_media_type_string
-func MediaTypeString(mt MediaType) string {
-	return C.GoString(C.av_get_media_type_string((C.enum_AVMediaType)(mt)))
+func MediaTypeString(mediaType MediaType) string {
+	return C.GoString(C.av_get_media_type_string((C.enum_AVMediaType)(mediaType)))
 }
 
 func PixelFormatString(pixelFormat int) string {
@@ -97,10 +97,10 @@ func IntListLengthForSize(e uint, l int, t uint64) uint {
 	return uint(C.av_int_list_length_for_size(C.uint(e), unsafe.Pointer(&l), (C.uint64_t)(t)))
 }
 
-// FopenUtf8 opens a file using a UTF-8 filename.
+// FileOpenUTF8 opens a file using a UTF-8 filename.
 //
 // C-Function: av_fopen_utf8
-func FopenUtf8(p, m string) *File {
+func FileOpenUTF8(p, m string) *File {
 	f := C.av_fopen_utf8(C.CString(p), C.CString(m))
 	return (*File)(f)
 }

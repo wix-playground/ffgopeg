@@ -48,12 +48,16 @@ func (d *Dictionary) ToMap() (m map[string]string) {
 	return
 }
 
+// Key returns the entry value.
+//
+// C-Variable: AVDictionaryEntry::value
+func (d *DictionaryEntry) Key() string {
+	return C.GoString(d.key)
+}
+
 // Value returns the entry value.
 //
 // C-Variable: AVDictionaryEntry::value
-func (de *DictionaryEntry) Key() string {
-	return C.GoString(de.key)
-}
-func (de *DictionaryEntry) Value() string {
-	return C.GoString(de.value)
+func (d *DictionaryEntry) Value() string {
+	return C.GoString(d.value)
 }
