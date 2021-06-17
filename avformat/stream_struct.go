@@ -11,7 +11,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/alon-ne/ffgopeg/avcodec"
+	"github.com/wix-playground/ffgopeg/avcodec"
 )
 
 //

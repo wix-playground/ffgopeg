@@ -10,7 +10,7 @@ package avfilter
 	#include <libavfilter/avfilter.h>
 */
 import "C"
-import "github.com/alon-ne/ffgopeg/avutil"
+import "github.com/wix-playground/ffgopeg/avutil"
 
 // GetFilterByName gets a filter definition matching the given name.
 //

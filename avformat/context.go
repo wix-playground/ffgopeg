@@ -11,8 +11,8 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/alon-ne/ffgopeg/avcodec"
-	"github.com/alon-ne/ffgopeg/avutil"
+	"github.com/wix-playground/ffgopeg/avcodec"
+	"github.com/wix-playground/ffgopeg/avutil"
 )
 
 // ProbeScore returns the probe score.

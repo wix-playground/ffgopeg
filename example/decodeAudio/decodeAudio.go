@@ -11,9 +11,9 @@ import (
 
 	"github.com/targodan/native"
 
-	"github.com/alon-ne/ffgopeg/avcodec"
-	"github.com/alon-ne/ffgopeg/avformat"
-	"github.com/alon-ne/ffgopeg/avutil"
+	"github.com/wix-playground/ffgopeg/avcodec"
+	"github.com/wix-playground/ffgopeg/avformat"
+	"github.com/wix-playground/ffgopeg/avutil"
 )
 
 const rawOutOnPlanar = true

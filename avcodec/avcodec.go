@@ -20,7 +20,7 @@ import "C"
 import (
 	"unsafe"
 
-	"github.com/alon-ne/ffgopeg/avutil"
+	"github.com/wix-playground/ffgopeg/avutil"
 )
 
 type (
