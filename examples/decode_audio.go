@@ -9,11 +9,10 @@ import (
 	"math"
 	"os"
 
-	"github.com/targodan/native"
-
 	"github.com/wix-playground/ffgopeg/avcodec"
 	"github.com/wix-playground/ffgopeg/avformat"
 	"github.com/wix-playground/ffgopeg/avutil"
+	"github.com/wix-playground/ffgopeg/runtime"
 )
 
 const rawOutOnPlanar = true
@@ -44,24 +43,24 @@ func findFirstAudioStream(ctxt *avformat.FormatContext) (int, error) {
 			return i, nil
 		}
 	}
-	return -1, errors.New("Could not find an audio stream.")
+	return -1, errors.New("could not find an audio stream")
 }
 
 func printStreamInformation(codec *avcodec.Codec, codecCtxt *avcodec.CodecContext, audioStreamIndex int) {
-	fmt.Fprintf(os.Stderr, "Codec: %s\n", codec.LongName())
-	fmt.Fprint(os.Stderr, "Supported sample formats: ")
+	fmt.Printf("Codec: %s\n", codec.LongName())
+	fmt.Printf("Supported sample formats: ")
 	for _, f := range codec.SupportedSampleFormats() {
-		fmt.Fprintf(os.Stderr, "%s, ", f.Name())
+		fmt.Printf("%s, ", f.Name())
 	}
-	fmt.Fprintf(os.Stderr, "\n")
-	fmt.Fprintf(os.Stderr, "----------\n")
-	fmt.Fprintf(os.Stderr, "%15s: %7d\n", "Stream", audioStreamIndex)
-	fmt.Fprintf(os.Stderr, "%15s: %7s\n", "Sample Format", codecCtxt.SampleFmt().Name())
-	fmt.Fprintf(os.Stderr, "%15s: %7d\n", "Sample rate", codecCtxt.SampleRate())
-	fmt.Fprintf(os.Stderr, "%15s: %7d\n", "Sample size", codecCtxt.SampleFmt().BytesPerSample())
-	fmt.Fprintf(os.Stderr, "%15s: %7v\n", "Planar", codecCtxt.SampleFmt().IsPlanar())
-	fmt.Fprintf(os.Stderr, "%15s: %7d\n", "Channels", codecCtxt.Channels())
-	fmt.Fprintf(os.Stderr, "%15s: %7v\n", "Float output", !rawOutOnPlanar || codecCtxt.SampleFmt().IsPlanar())
+	fmt.Printf("\n")
+	fmt.Printf("----------\n")
+	fmt.Printf("%15s: %7d\n", "Stream", audioStreamIndex)
+	fmt.Printf("%15s: %7s\n", "Sample Format", codecCtxt.SampleFmt().Name())
+	fmt.Printf("%15s: %7d\n", "Sample rate", codecCtxt.SampleRate())
+	fmt.Printf("%15s: %7d\n", "Sample size", codecCtxt.SampleFmt().BytesPerSample())
+	fmt.Printf("%15s: %7v\n", "Planar", codecCtxt.SampleFmt().IsPlanar())
+	fmt.Printf("%15s: %7d\n", "Channels", codecCtxt.Channels())
+	fmt.Printf("%15s: %7v\n", "Float output", codecCtxt.SampleFmt().IsPlanar())
 }
 
 func receiveAndHandle(codecCtxt *avcodec.CodecContext, frame *avutil.Frame, out io.Writer) (err avutil.ReturnCode) {
@@ -85,19 +84,19 @@ func handleFrame(codecCtxt *avcodec.CodecContext, frame *avutil.Frame, out io.Wr
 		for s := 0; s < frame.NbSamples(); s++ {
 			for c := 0; c < codecCtxt.Channels(); c++ {
 				sample := getSample(codecCtxt, frame.ExtendedData(c, frame.Linesize(0)), s)
-				binary.Write(out, binary.LittleEndian, sample)
+				_ = binary.Write(out, binary.LittleEndian, sample)
 			}
 		}
 	} else {
 		// This means that the data of each channel is in the same buffer.
 		// => frame->extended_data[0] contains data of all channels.
 		if rawOutOnPlanar {
-			out.Write(frame.ExtendedData(0, frame.Linesize(0)))
+			_, _ = out.Write(frame.ExtendedData(0, frame.Linesize(0)))
 		} else {
 			for s := 0; s < frame.NbSamples(); s++ {
 				for c := 0; c < codecCtxt.Channels(); c++ {
 					sample := getSample(codecCtxt, frame.ExtendedData(0, frame.Linesize(0)), s*codecCtxt.Channels()+c)
-					binary.Write(out, binary.LittleEndian, sample)
+					_ = binary.Write(out, binary.LittleEndian, sample)
 				}
 			}
 		}
@@ -114,13 +113,13 @@ func getSample(codecCtxt *avcodec.CodecContext, buffer []byte, sampleIndex int) 
 		val = int64(buffer[byteIndex]) - 127
 
 	case 2:
-		val = int64(int16(native.ByteOrder.Uint16(buffer[byteIndex : byteIndex+sampleSize])))
+		val = int64(int16(runtime.ByteOrder.Uint16(buffer[byteIndex : byteIndex+sampleSize])))
 
 	case 4:
-		val = int64(int32(native.ByteOrder.Uint32(buffer[byteIndex : byteIndex+sampleSize])))
+		val = int64(int32(runtime.ByteOrder.Uint32(buffer[byteIndex : byteIndex+sampleSize])))
 
 	case 8:
-		val = int64(native.ByteOrder.Uint64(buffer[byteIndex : byteIndex+sampleSize]))
+		val = int64(runtime.ByteOrder.Uint64(buffer[byteIndex : byteIndex+sampleSize]))
 
 	default:
 		panic(fmt.Sprintf("Invalid sample size %d.", sampleSize))
