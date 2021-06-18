@@ -134,6 +134,12 @@ func (f *InputFormat) Register() {
 	C.av_register_input_format((*C.struct_AVInputFormat)(f))
 }
 
+// Name returns the short format name
+func (f *InputFormat) Name() string {
+	return C.GoString((*C.struct_AVInputFormat)(f).name)
+}
+
+// LongName returns the human readable format name
 func (f *InputFormat) LongName() string {
 	return C.GoString((*C.struct_AVInputFormat)(f).long_name)
 }
