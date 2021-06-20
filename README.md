@@ -1,7 +1,7 @@
 # ffgopeg [![Build Status](https://travis-ci.org/targodan/ffgopeg.svg?branch=develop)](https://travis-ci.org/targodan/ffgopeg)
 
 This go library provides bindings for ffmpeg.
-Its main goal is to make the ffmpeg library accessable in a way that feels natural in the go language.
+Its main goal is to make the ffmpeg library accessible in a way that feels natural in the go language.
 This library is based on [giorgisio/goav](https://github.com/giorgisio/goav) and will differ in the following ways.
 
 - Target ffmpeg version: 4.x
@@ -10,14 +10,13 @@ This library is based on [giorgisio/goav](https://github.com/giorgisio/goav) and
 
 TL; DR: *not stable*
 
-The renaming of funcitons is mostly complete.
+The renaming of functions is mostly complete.
 Although I have released version 1 I wouldn't call it stable yet.
-It is largely untested and many functions may not work as intended (meaning propable segmentation faults).
+It is largely untested, and many functions may not work as intended (meaning propable segmentation faults).
 If you discover any errors and/or have functions that are missing feel free to [contribute](#contribute)! :grinning:
 
 If you just want to decode audio files into `float32` samples [this project of mine](https://github.com/targodan/goad) could be for you.
-It provides a high level API for just that usecase, based on the ffgopeg library.
-A first version is going to come soon but feel free to checkout the develop-branch in the meantime ("checkout"... get it? :laughing:).
+It provides a high level API for just that use case, based on the ffgopeg library.
 
 ## Usage
 
@@ -30,13 +29,12 @@ go get -u github.com/wix-playground/ffgopeg
 This will install the latest version 1.x release.
 See [Versioning](#versioning).
 
-The ffmpeg libraries are in theire own packages.
+The ffmpeg libraries are in their own packages.
 If you know which ffmpeg function you want to use you can use [this little webtool](https://targodan.github.io/ffgopeg)
 
 ## Versioning
 
 This project follows the [semantic versioning scheme](http://semver.org/).
-That means if you use the `gopkg.in` link from above using `go get -u` should be safe and not break anything.
 
 ## Mapping ffmpeg function names to go
 
@@ -53,17 +51,17 @@ In the future I will provide a little tool wich lets you search for the go-repre
 
 ## Contribute
 
-If you get any errors using this library or some functions are missing please open an issue and/or fork, branch and file a pull request.
+If you get any errors using this library, or some functions are missing please open an issue and/or fork, branch and file a pull request.
 Please only file pull requests on the develop branch.
-This project losely followes the [git-flow](http://danielkummer.github.io/git-flow-cheatsheet/) workflow.
+This project loosely follows the [git-flow](http://danielkummer.github.io/git-flow-cheatsheet/) workflow.
 
 After opening the pull request travis ci should start compiling and testing it.
-I won't react to your pull request untill travis *successfully* builds the request.
+I won't react to your pull request until travis *successfully* builds the request.
 If travis errors just add commits to your fork that will fix it.
 Travis will then rebuild the request.
 If your git history becomes messy by wildly trying to fix the build, please do a `git rebase -i HEAD~n` (with n as number of commits) and clean up your history.
 
-Also I could use some help with these things:
+Also, I could use some help with these things:
 If anyone has a good idea how to test the bindings I would be glad to hear it!
 I don't think it makes sense to test the behaviour of simple C calls as I assume these functions are already tested by ffmpeg.
 I don't know how I could test if the binding was successful without testing the behaviour though.
