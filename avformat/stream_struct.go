@@ -4,9 +4,9 @@
 
 package avformat
 
-//#cgo CFLAGS: -Wno-deprecated-declarations
-//#cgo pkg-config: libavformat libavcodec
+//#cgo pkg-config: libavformat
 //#include <libavformat/avformat.h>
+//#include <libavutil/rational.h>
 import "C"
 import (
 	"unsafe"

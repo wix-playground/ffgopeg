@@ -93,10 +93,10 @@ func (c *Context) Scale(src *uint8, str int, y, h int, d *uint8, ds int) int {
 // SetColorspaceDetails sets the colorspace details.
 //
 // C-Function: sws_setColorspaceDetails
-func (c *Context) SetColorspaceDetails(it *int, sr int, t *int, dr, b, c, s int) int {
+func (c *Context) SetColorspaceDetails(it *int, sr int, t *int, dr, brightness, contrast, saturation int) int {
 	cit := (*C.int)(unsafe.Pointer(it))
 	ct := (*C.int)(unsafe.Pointer(t))
-	return int(C.sws_setColorspaceDetails((*C.struct_SwsContext)(c), cit, C.int(sr), ct, C.int(dr), C.int(b), C.int(c), C.int(s)))
+	return int(C.sws_setColorspaceDetails((*C.struct_SwsContext)(c), cit, C.int(sr), ct, C.int(dr), C.int(brightness), C.int(contrast), C.int(saturation)))
 }
 
 // ColorspaceDetails returns the colorspace details.

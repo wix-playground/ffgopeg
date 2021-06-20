@@ -47,7 +47,7 @@ The ffmpeg C-Functions are renamed following these rules:
 - Allocating functions that are used as a constructor are going to be called `NewXxx`: `avcodec_alloc_context3`  `func NewContext() *CodecContext`
 - Instead of `int` return codes go `error`s will be returned containing an error description (as returned by `av_strerror`) and the code.
 
-In the future I will provide a little tool wich lets you search for the go-representation of a given ffmpeg C-function.
+In the future I will provide a little tool which lets you search for the go-representation of a given ffmpeg C-function.
 
 ## Contribute
 
