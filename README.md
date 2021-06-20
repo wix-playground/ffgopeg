@@ -4,7 +4,7 @@ This go library provides bindings for ffmpeg.
 Its main goal is to make the ffmpeg library accessible in a way that feels natural in the go language.
 This library is based on [giorgisio/goav](https://github.com/giorgisio/goav) and will differ in the following ways.
 
-- Target ffmpeg version: 4.x
+- Target ffmpeg version: 4.4.x
 
 ## Current state
 
@@ -22,7 +22,13 @@ It provides a high level API for just that use case, based on the ffgopeg librar
 
 Installing or updating.
 
+MacOS:
+
+```shell
+brew install libav
 ```
+
+```shell
 go get -u github.com/wix-playground/ffgopeg
 ```
 

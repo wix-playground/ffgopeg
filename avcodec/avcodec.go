@@ -89,47 +89,6 @@ func (f FieldOrder) String() string {
 	return "<unsupported field order value>"
 }
 
-// nextRegisteredCodec returns the codec registered after the given codec, or the first one if nil is given.
-//
-// C-Function: av_codec_next
-func nextRegisteredCodec(c *Codec) *Codec {
-	return (*Codec)(C.av_codec_next((*C.struct_AVCodec)(c)))
-}
-
-// RegisteredCodecs returns a channel which can be used to iterate over the registered codecs.
-//
-// C-Function: av_codec_next
-//
-// Usage:
-//
-//     for codec := range avcodec.RegisteredCodecs() {
-//         // ...
-//     }
-func RegisteredCodecs() <-chan *Codec {
-	ch := make(chan *Codec)
-
-	var c *Codec
-	go func() {
-		for {
-			c = nextRegisteredCodec(c)
-			if c == nil {
-				break
-			}
-			ch <- c
-		}
-		close(ch)
-	}()
-
-	return ch
-}
-
-// RegisterCodec registers the codec and initializes libavcodec.
-//
-// C-Function: avcodec_register
-func RegisterCodec(c *Codec) {
-	C.avcodec_register((*C.struct_AVCodec)(c))
-}
-
 // FastPaddedMalloc allocates a buffer, reusing the given one if large enough.
 // The buffer has additional FF_INPUT_BUFFER_PADDING_SIZE at the end which will always be 0.
 // C-Funtion: av_fast_padded_malloc
