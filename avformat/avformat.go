@@ -76,10 +76,10 @@ func (c *IOContext) GetPacket(size int) (*Packet, avutil.ReturnCode) {
 	return pkt, code
 }
 
-//Read data and append it to the current content of the Packet.
+// AppendPacket Read data and append it to the current content of the Packet.
 //
 // C-Function: av_append_packet
-func (c *IOContext) AvAppendPacket(pkt *Packet, s int) int {
+func (c *IOContext) AppendPacket(pkt *Packet, s int) int {
 	return int(C.av_append_packet((*C.struct_AVIOContext)(c), (*C.struct_AVPacket)(pkt), C.int(s)))
 }
 
@@ -151,7 +151,7 @@ func (f *OutputFormat) Register() {
 	C.av_register_output_format((*C.struct_AVOutputFormat)(f))
 }
 
-func informatNext(f *InputFormat) *InputFormat {
+func inputFormatNext(f *InputFormat) *InputFormat {
 	return (*InputFormat)(C.av_iformat_next((*C.struct_AVInputFormat)(f)))
 }
 
@@ -170,7 +170,7 @@ func InputFormats() <-chan *InputFormat {
 	var e *InputFormat
 	go func() {
 		for {
-			e = informatNext(e)
+			e = inputFormatNext(e)
 			if e == nil {
 				break
 			}
@@ -182,7 +182,7 @@ func InputFormats() <-chan *InputFormat {
 	return ch
 }
 
-func oFormatNext(f *OutputFormat) *OutputFormat {
+func outputFormatNext(f *OutputFormat) *OutputFormat {
 	return (*OutputFormat)(C.av_oformat_next((*C.struct_AVOutputFormat)(f)))
 }
 
@@ -201,7 +201,7 @@ func OutputFormats() <-chan *OutputFormat {
 	var e *OutputFormat
 	go func() {
 		for {
-			e = oFormatNext(e)
+			e = outputFormatNext(e)
 			if e == nil {
 				break
 			}
@@ -361,146 +361,152 @@ func OpenInput(url string, fmt *InputFormat, options **Dictionary) (*FormatConte
 	return ctx, err
 }
 
-//Return the output format in the list of registered output formats which best matches the provided parameters, or return NULL if there is no match.
+// GuessFormat Return the output format in the list of registered output formats which best matches the provided parameters, or return NULL if there is no match.
 //
 // C-Function: av_guess_format
-func AvGuessFormat(sn, f, mt string) *OutputFormat {
+func GuessFormat(sn, f, mt string) *OutputFormat {
 	return (*OutputFormat)(C.av_guess_format(C.CString(sn), C.CString(f), C.CString(mt)))
 }
 
-//Guess the codec ID based upon muxer and filename.
+// GuessCodec Guess the codec ID based upon muxer and filename.
 //
 // C-Function: av_guess_codec
-func AvGuessCodec(fmt *OutputFormat, sn, f, mt string, t avutil.MediaType) CodecId {
+func GuessCodec(fmt *OutputFormat, sn, f, mt string, t avutil.MediaType) CodecId {
 	return (CodecId)(C.av_guess_codec((*C.struct_AVOutputFormat)(fmt), C.CString(sn), C.CString(f), C.CString(mt), (C.enum_AVMediaType)(t)))
 }
 
-//Send a nice hexadecimal dump of a buffer to the specified file stream.
+// HexDump Send a nice hexadecimal dump of a buffer to the specified file stream.
 //
 // C-Function: av_hex_dump
-func AvHexDump(f *File, b *uint8, s int) {
+func HexDump(f *File, b *uint8, s int) {
 	C.av_hex_dump((*C.FILE)(f), (*C.uint8_t)(b), C.int(s))
 }
 
-//Send a nice hexadecimal dump of a buffer to the log.
+// HexDumpLog Send a nice hexadecimal dump of a buffer to the log.
 //
 // C-Function: av_hex_dump_log
-func AvHexDumpLog(a, l int, b *uint8, s int) {
+func HexDumpLog(a, l int, b *uint8, s int) {
 	C.av_hex_dump_log(unsafe.Pointer(&a), C.int(l), (*C.uint8_t)(b), C.int(s))
 }
 
-//Send a nice dump of a packet to the specified file stream.
+// PktDump2 Send a nice dump of a packet to the specified file stream.
 //
 // C-Function: av_pkt_dump2
-func AvPktDump2(f *File, pkt *Packet, dp int, st *Stream) {
+func PktDump2(f *File, pkt *Packet, dp int, st *Stream) {
 	C.av_pkt_dump2((*C.FILE)(f), (*C.struct_AVPacket)(pkt), C.int(dp), (*C.struct_AVStream)(st))
 }
 
-//Send a nice dump of a packet to the log.
+// PktDumpLog2 Send a nice dump of a packet to the log.
 //
 // C-Function: av_pkt_dump_log2
-func AvPktDumpLog2(a int, l int, pkt *Packet, dp int, st *Stream) {
+func PktDumpLog2(a int, l int, pkt *Packet, dp int, st *Stream) {
 	C.av_pkt_dump_log2(unsafe.Pointer(&a), C.int(l), (*C.struct_AVPacket)(pkt), C.int(dp), (*C.struct_AVStream)(st))
 }
 
-//enum CodecId av_codec_get_id (const struct CodecTag *const *tags, unsigned int tag)
-//Get the CodecId for the given codec tag tag.
+// CodecGetId enum CodecId av_codec_get_id (const struct CodecTag *const *tags, unsigned int tag)
+//  Get the CodecId for the given codec tag tag.
 //
 // C-Function: av_codec_get_id
-func AvCodecGetId(t **CodecTag, tag uint) CodecId {
+func CodecGetId(t **CodecTag, tag uint) CodecId {
 	return (CodecId)(C.av_codec_get_id((**C.struct_AVCodecTag)(unsafe.Pointer(t)), C.uint(tag)))
 }
 
-//Get the codec tag for the given codec id id.
+// CodecGetTag Get the codec tag for the given codec id id.
 //
 // C-Function: av_codec_get_tag
-func AvCodecGetTag(t **CodecTag, id CodecId) uint {
+func CodecGetTag(t **CodecTag, id CodecId) uint {
 	return uint(C.av_codec_get_tag((**C.struct_AVCodecTag)(unsafe.Pointer(t)), (C.enum_AVCodecID)(id)))
 }
 
-//Get the codec tag for the given codec id.
+// CodecGetTag2 Get the codec tag for the given codec id.
 //
 // C-Function: av_codec_get_tag2
-func AvCodecGetTag2(t **CodecTag, id CodecId, tag *uint) int {
+func CodecGetTag2(t **CodecTag, id CodecId, tag *uint) int {
 	return int(C.av_codec_get_tag2((**C.struct_AVCodecTag)(unsafe.Pointer(t)), (C.enum_AVCodecID)(id), (*C.uint)(unsafe.Pointer(tag))))
 }
 
-//Get the index for a specific timestamp.
+// IndexSearchTimestamp Get the index for a specific timestamp.
 //
 // C-Function: av_index_search_timestamp
-func AvIndexSearchTimestamp(st *Stream, t int64, f int) int {
+func IndexSearchTimestamp(st *Stream, t int64, f int) int {
 	return int(C.av_index_search_timestamp((*C.struct_AVStream)(st), C.int64_t(t), C.int(f)))
 }
 
-//Add an index entry into a sorted list.
+// AddIndexEntry Add an index entry into a sorted list.
 //
 // C-Function: av_add_index_entry
-func AvAddIndexEntry(st *Stream, pos, t, int64, s, d, f int) int {
+func AddIndexEntry(st *Stream, pos, t, int64, s, d, f int) int {
 	return int(C.av_add_index_entry((*C.struct_AVStream)(st), C.int64_t(pos), C.int64_t(t), C.int(s), C.int(d), C.int(f)))
 }
 
-//Split a URL string into components.
+// URLSplit Split a URL string into components.
 //
 // C-Function: av_url_split
-func AvUrlSplit(p string, ps int, a string, as int, h string, hs int, pp *int, path string, psize int, url string) {
+func URLSplit(p string, ps int, a string, as int, h string, hs int, pp *int, path string, psize int, url string) {
 	C.av_url_split(C.CString(p), C.int(ps), C.CString(a), C.int(as), C.CString(h), C.int(hs), (*C.int)(unsafe.Pointer(pp)), C.CString(path), C.int(psize), C.CString(url))
 }
 
-//int av_get_frame_filename (char *buf, int buf_size, const char *path, int number)
-//Return in 'buf' the path with 'd' replaced by a number.
+// GetFrameFilename int av_get_frame_filename (char *buf, int buf_size, const char *path, int number)
+// Return in 'buf' the path with 'd' replaced by a number.
 //
 // C-Function: av_get_frame_filename
-func AvGetFrameFilename(b string, bs int, pa string, n int) int {
+func GetFrameFilename(b string, bs int, pa string, n int) int {
 	return int(C.av_get_frame_filename(C.CString(b), C.int(bs), C.CString(pa), C.int(n)))
 }
 
-//Check whether filename actually is a numbered sequence generator.
+// FilenameNumberTest Check whether filename actually is a numbered sequence generator.
 //
 // C-Function: av_filename_number_test
-func AvFilenameNumberTest(f string) int {
+func FilenameNumberTest(f string) int {
 	return int(C.av_filename_number_test(C.CString(f)))
 }
 
-//Generate an SDP for an RTP session.
+// SPDCreate Generate an SDP for an RTP session.
 //
 // C-Function: av_sdp_create
-func AvSdpCreate(ac **FormatContext, nf int, b string, s int) int {
+func SPDCreate(ac **FormatContext, nf int, b string, s int) int {
 	return int(C.av_sdp_create((**C.struct_AVFormatContext)(unsafe.Pointer(ac)), C.int(nf), C.CString(b), C.int(s)))
 }
 
-//int av_match_ext (const char *filename, const char *extensions)
-//Return a positive value if the given filename has one of the given extensions, 0 otherwise.
+// MatchExt int av_match_ext (const char *filename, const char *extensions)
+// Return a positive value if the given filename has one of the given extensions, 0 otherwise.
 //
 // C-Function: av_match_ext
-func AvMatchExt(f, e string) int {
+func MatchExt(f, e string) int {
 	return int(C.av_match_ext(C.CString(f), C.CString(e)))
 }
 
-//Test if the given container can store a codec.
+// QueryCodec Test if the given container can store a codec.
 //
 // C-Function: avformat_query_codec
-func AvformatQueryCodec(o *OutputFormat, cd CodecId, sc int) int {
+func QueryCodec(o *OutputFormat, cd CodecId, sc int) int {
 	return int(C.avformat_query_codec((*C.struct_AVOutputFormat)(o), (C.enum_AVCodecID)(cd), C.int(sc)))
 }
 
-// C-Function: avformat_get_riff_video_tags
-func AvformatGetRiffVideoTags() *CodecTag {
+// GetRiffVideoTags
+//
+//C-Function: avformat_get_riff_video_tags
+func GetRiffVideoTags() *CodecTag {
 	return (*CodecTag)(C.avformat_get_riff_video_tags())
 }
 
-//struct CodecTag * avformat_get_riff_audio_tags (void)
+// GetRiffAudioTags struct CodecTag * avformat_get_riff_audio_tags (void)
 //
 // C-Function: avformat_get_riff_audio_tags
-func AvformatGetRiffAudioTags() *CodecTag {
+func GetRiffAudioTags() *CodecTag {
 	return (*CodecTag)(C.avformat_get_riff_audio_tags())
 }
 
-// C-Function: avformat_get_mov_video_tags
-func AvformatGetMovVideoTags() *CodecTag {
+// GetMovVideoTags
+//
+//C-Function: avformat_get_mov_video_tags
+func GetMovVideoTags() *CodecTag {
 	return (*CodecTag)(C.avformat_get_mov_video_tags())
 }
 
-// C-Function: avformat_get_mov_audio_tags
-func AvformatGetMovAudioTags() *CodecTag {
+// GetMovAudioTags
+//
+//C-Function: avformat_get_mov_audio_tags
+func GetMovAudioTags() *CodecTag {
 	return (*CodecTag)(C.avformat_get_mov_audio_tags())
 }
